@@ -5,12 +5,12 @@ const client = new MongoClient(uri)
 async function run() {
 try {
 await client.connect();
-var database = client.db("alchemy");
+var database = client.db("Alchemy");
 database.dropDatabase()
-database = client.db("alchemy");
+database = client.db("Alchemy");
 const alc = database.collection("alc");
-const result = await alc.insertOne({name:"alchemy"});
-console.log(`${result} documents were inserted`);
+const result = await alc.insertMany(data);
+console.log(`${result.insertedCount} documents were inserted`);
 } finally {
 await client.close();
 }
