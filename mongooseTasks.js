@@ -1,7 +1,10 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/test');
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/test')
+var schema = mongoose.Schema({ name: String })
+schema.methods.obmen = function(){
+console.log(this.get("name") + " Сказал 'Равноценный обмен'")
+}
+var alc = mongoose.model('Alc', schema)
 
-const Alc = mongoose.model('Alc', { name: String });
-
-const alc = new Alc({name: 'Edward'});
-alc.save().then(() => console.log('Равноценный обмен'));
+var alc = new alc({ name: 'Edward' });
+alc.save().then(() => alc.obmen());
