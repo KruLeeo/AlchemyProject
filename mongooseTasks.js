@@ -1,10 +1,13 @@
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/test')
-var schema = mongoose.Schema({ name: String })
-schema.methods.obmen = function(){
-console.log(this.get("name") + " Сказал 'Равноценный обмен'")
-}
-var alc = mongoose.model('Alc', schema)
-
-var alc = new alc({ name: 'Edward' });
-alc.save().then(() => alc.obmen());
+const { alcheSchema } = require('./models/alche')
+mongoose.connect('mongodb://localhost/test1')
+var Alche = require("./models/alche").Alche
+var alche = new Alche({
+title: "Эдвард",
+})
+    var alche = new Alche({
+        title: "Альфонс Элрик",
+        nick: "alphonse"
+        })
+console.log(alche)
+alche.save()
