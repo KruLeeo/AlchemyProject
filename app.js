@@ -9,6 +9,8 @@ console.log(mongoose.connection.readyState);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var alchRouter = require('./routes/alch');
+
 
 var app = express();
 
@@ -25,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/alchemy', alchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
