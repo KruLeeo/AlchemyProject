@@ -4,10 +4,6 @@ const Alche = require("../models/alche").Alche;
 var async = require("async")
 
  /* GET users listing. */
- router.get('/', (req, res, next) => {
-     res.send('Новый маршрутизатор, для маршрутов, начинающихся с alche');
-});
-
 
 /* Страница героев */
 router.get("/:nick", async (req, res, next) => {
