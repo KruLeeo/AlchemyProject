@@ -5,12 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/Alchemy')
+const session = require("express-session")
 console.log(mongoose.connection.readyState);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var alchRouter = require('./routes/alch');
-
 
 var app = express();
 
@@ -24,6 +24,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: "ALCHEMY",
+  cookie:{maxAge:600*1000},
+  resave: true,
+  saveUninitialized: true,
+  httpOnly: true,
+  secure: true
+  }))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
