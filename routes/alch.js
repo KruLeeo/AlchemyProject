@@ -6,25 +6,31 @@ var async = require("async")
  /* GET users listing. */
 
 /* Страница героев */
-router.get("/:nick", async (req, res, next) => {
+router.get('/:nick', async function(req, res, next) {
   try {
-    const alche = await Alche.findOne({ nick: req.params.nick });
-    console.log(alche);
+    const [alche, alchemy] = await Promise.all([
+      Alche.findOne({ nick: req.params.nick }),
+      Alche.find({}, { _id: 0, title: 1, nick: 1 })
+    ]);
+  
     if (!alche) {
-      throw new Error("Нет такого!");
+      throw new Error("Нет такого");
     }
-    res.render('alche', {
-      title: alche.title,
-      picture: alche.avatar,
-      desc: alche.desc
-    });
+    
+    renderAlche(res, alche.title, alche.avatar, alche.desc, alchemy);
   } catch (err) {
     next(err);
   }
 });
 
+function renderAlche(res, title, picture, desc, alchemy) {
+  console.log(alchemy);
 
-
-
-
+  res.render('alche', {
+    title: title,
+    picture: picture,
+    desc: desc,
+    menu: alchemy
+  });
+}
 module.exports = router;
