@@ -4,6 +4,7 @@ const router = express.Router();
 const Alche = require("../models/alche").Alche;
 var User = require("./../models/user").User
 
+
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
