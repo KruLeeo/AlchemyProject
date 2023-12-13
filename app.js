@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/Alchemy')
-const session = require("express-session")
+mongoose.connect('mongodb://localhost/Alchemy');
+var session = require("express-session");
 console.log(mongoose.connection.readyState);
 
 var indexRouter = require('./routes/index');
@@ -25,14 +26,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var MongoStore = require('connect-mongo');
 app.use(session({
-  secret: "alchemy",
+  secret: "Alchemy",
   cookie:{maxAge:600*1000},
   resave: true,
   saveUninitialized: true,
-  httpOnly: true,
-  secure: true
+  secure: true,
+  store: MongoStore.create({mongoUrl: 'mongodb://localhost/Alchemy'})
   }))
+  
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
