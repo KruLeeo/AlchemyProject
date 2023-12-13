@@ -7,7 +7,7 @@ const Alche = require("../models/alche").Alche
   router.get('/', async(req, res, next) => {
     try{
       const menu = await Alche.find({}, { _id: 0, title: 1, nick: 1 });
-      res.render('index', { title: 'Alchemy', menu:menu,counter:req.session.counter });
+      res.render('index', { title: 'Alchemy',counter:req.session.counter });
     }
     catch (err) {next(err);}
 });

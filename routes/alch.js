@@ -29,8 +29,7 @@ function renderAlche(res, title, picture, desc, alchemy) {
   res.render('alche', {
     title: title,
     picture: picture,
-    desc: desc,
-    menu: alchemy
+    desc: desc
   });
 }
 module.exports = router;

@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/Alchemy');
 var session = require("express-session");
-console.log(mongoose.connection.readyState);
+console.log(mongoose.connection.readyState);  
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -40,8 +40,7 @@ app.use(session({
     next()
     })
     
-  
-
+app.use(require("./middleware/createMenu.js"))
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/alchemy', alchRouter);
