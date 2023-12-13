@@ -39,8 +39,9 @@ app.use(session({
     req.session.counter = req.session.counter +1 || 1
     next()
     })
-    
-app.use(require("./middleware/createMenu.js"))
+
+app.use(require("./middleware/createMenu.js"));
+app.use(require("./middleware/createUser.js"));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/alchemy', alchRouter);
