@@ -4,16 +4,30 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/Alchemy');
+// var mongoose = require('mongoose')
+// mongoose.connect('mongodb://localhost/Alchemy');
+var Alche = require("./models/alche").Alche;
 var session = require("express-session");
-console.log(mongoose.connection.readyState);  
+// console.log(mongoose.connection.readyState); 
+var MySQLStore = require('express-mysql-session')(session); 
+var mysql2 = require('mysql2/promise');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var alchRouter = require('./routes/alch');
 
 var app = express();
+
+const options = {
+  host: '127.0.0.1',
+  port: '3306',
+  user: 'root',
+  password: '12345',
+  database: 'ALCHEMY'
+};
+
+const pool = mysql2.createPool(options);
+const sessionStore = new MySQLStore({} /* options */, pool);
 
 // view engine setup
 app.engine('ejs',require('ejs-locals'));  
@@ -26,15 +40,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var MongoStore = require('connect-mongo');
 app.use(session({
-  secret: "Alchemy",
-  cookie:{maxAge:60*1000},
+  secret: 'ALCHEMY',
+  key: 'sid',
+  store: sessionStore,
   resave: true,
   saveUninitialized: true,
-  secure: true,
-  store: MongoStore.create({mongoUrl: 'mongodb://localhost/Alchemy'})
-  }))
+  cookie: { path: '/',
+    httpOnly: true,
+    maxAge: 60*1000
+  }
+}));
+
+// var MongoStore = require('connect-mongo');
+// app.use(session({
+//   secret: "Alchemy",
+//   cookie:{maxAge:60*1000},
+//   resave: true,
+//   saveUninitialized: true,
+//   secure: true,
+//   store: MongoStore.create({mongoUrl: 'mongodb://localhost/Alchemy'})
+//   }))
+
   app.use(function(req,res,next){
     req.session.counter = req.session.counter +1 || 1
     next()
