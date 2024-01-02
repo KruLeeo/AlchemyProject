@@ -3,9 +3,9 @@ const router = express.Router();
 // const Alche = require("../models/alche").Alche;
 var async = require("async");
 var db = require('../mySQLConnect.js');
-// var checkAuth = require("./../middleware/checkAuth.js");
+var checkAuth = require("./../middleware/checkAuth.js");
 
-router.get("/:nick", function(req, res, next) {
+router.get("/:nick", checkAuth, function(req, res, next) {
   db.query(`SELECT * FROM alchemists WHERE alchemists.nick = '${req.params.nick}'`, (err,alchemists) => {
   if(err) {
     console.log(err);
