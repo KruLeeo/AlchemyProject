@@ -42,7 +42,7 @@ router.post('/logreg', function(req, res, next) {
         if (err) return next(err);
 
         req.session.user = user.id;
-        res.redirect('/');
+        res.redirect('/');  
       });
     }
   });
